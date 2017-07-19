@@ -4,7 +4,7 @@ Semenatic segmentation using Unet
 
 ## Result
 
-[![image](https://youtu.be/GYoyzB7aoK4/0.jpg)](https://youtu.be/GYoyzB7aoK4?t=24)
+[![Youtube video](https://youtu.be/GYoyzB7aoK4/0.jpg)](https://youtu.be/GYoyzB7aoK4?t=24)
   
 ## Requirements
 
