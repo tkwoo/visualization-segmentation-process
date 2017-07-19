@@ -2,9 +2,9 @@
 
 Semenatic segmentation using Unet  
 
+## Result
 
-![image](https://youtu.be/GYoyzB7aoK4/0.jpg)
-(https://youtu.be/GYoyzB7aoK4?t=24)
+[![image](https://youtu.be/GYoyzB7aoK4/0.jpg)](https://youtu.be/GYoyzB7aoK4?t=24)
   
 ## Requirements
 
