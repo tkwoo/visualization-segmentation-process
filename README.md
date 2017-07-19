@@ -44,7 +44,7 @@ First, create checkpoint dir and download trained parameter files
             ├── weight.xx.h5
             └── ...
 
-You can download **CHECKPOINT** files in project
+You can download **CHECKPOINT** --> not supported
   
 To test a model
 
