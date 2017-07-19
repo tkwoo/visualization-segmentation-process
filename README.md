@@ -5,7 +5,9 @@ Semenatic segmentation using Unet
 ## Result
 
 [![Youtube video](https://img.youtube.com/vi/GYoyzB7aoK4/0.jpg)](https://youtu.be/GYoyzB7aoK4?t=24)
-  
+click image to watch video
+
+
 ## Requirements
 
 - Python 2.7
@@ -32,8 +34,7 @@ The dataset directory structure is quite complex to use the Keras DataGen Framew
 Input data for testing
 
     └── test_data
-        └── SMC_ku_001
-            └── T1.mgz
+        └── image.png
         
 First, create checkpoint dir and download trained parameter files  
 
@@ -47,11 +48,11 @@ You can download **CHECKPOINT** files in project
   
 To test a model
 
-    $ python main.py --mode predict_mri --ckpt_name Unet_sagitalBM --T1_path ./test_data/SMC_ku_001/T1.mgz --subject_name SMC001 --debug false --output_dir ./result
+    $ python main.py
 
 To test a model
 
-    $ python main.py --mode train --ckpt_name <NAME> --data_path <./dataset/...>
+    $ python main.py --mode predict_img --ckpt_name <NAME> --test_image_path <.../image.png>
 
 
 ### Reference
