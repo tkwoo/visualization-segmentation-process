@@ -1,6 +1,10 @@
 # Segmentation using Unet open version
 
 Semenatic segmentation using Unet  
+
+
+[![IMAGE ALT TEXT HERE](https://youtu.be/GYoyzB7aoK4/200.jpg)]
+(https://youtu.be/GYoyzB7aoK4?t=24)
   
 ## Requirements
 
@@ -49,12 +53,6 @@ To test a model
 
     $ python main.py --mode train --ckpt_name <NAME> --data_path <./dataset/...>
 
-### Result
-
-![result](./samples/result.png)
-<!--<img src="./samples/result.png" width="150%">-->
-![result2](./samples/result2.png)
-<!--<img src="./samples/result2.png" width="150%">-->
 
 ### Reference
 paper : https://lmb.informatik.uni-freiburg.de/people/ronneber/u-net/  
