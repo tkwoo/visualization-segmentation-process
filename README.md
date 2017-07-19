@@ -3,7 +3,7 @@
 Semenatic segmentation using Unet  
 
 
-[![IMAGE ALT TEXT HERE](https://youtu.be/GYoyzB7aoK4/200.jpg)]
+![image](https://youtu.be/GYoyzB7aoK4/0.jpg)
 (https://youtu.be/GYoyzB7aoK4?t=24)
   
 ## Requirements
