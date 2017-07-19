@@ -30,7 +30,7 @@ Input data(only for training)
                     └── mask
                         └── xxx.png (It must have same name as original image)
 
-The dataset directory structure is quite complex to use the Keras DataGen Framework.
+The dataset directory structure is quite complex to use the Keras *ImageDataGenerator* Framework.
 
 Input data for testing
 
