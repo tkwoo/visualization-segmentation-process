@@ -13,7 +13,7 @@ import random
 import math
 
 from Unet_keras import get_unet
-# import callbacks
+import callbacks
 
 class TrainModel:
     def __init__(self, flag):
@@ -42,9 +42,9 @@ class TrainModel:
                 featurewise_std_normalization=False,  # divide inputs by std of the dataset
                 samplewise_std_normalization=False,  # divide each input by its std
                 zca_whitening=False,  # apply ZCA whitening
-                rotation_range=10,  # randomly rotate images in the range (degrees, 0 to 180)
-                width_shift_range=0.1,  # randomly shift images horizontally (fraction of total width)
-                height_shift_range=0.1,  # randomly shift images vertically (fraction of total height)
+                rotation_range=5,  # randomly rotate images in the range (degrees, 0 to 180)
+                width_shift_range=0.05,  # randomly shift images horizontally (fraction of total width)
+                height_shift_range=0.05,  # randomly shift images vertically (fraction of total height)
                 # fill_mode='constant',
                 # cval=0.,
                 horizontal_flip=False,  # randomly flip images
@@ -60,22 +60,21 @@ class TrainModel:
         mask_generator = mask_datagen.flow_from_directory(
                     os.path.join(self.flag.data_path, 'train/GT'),
                     class_mode=None, seed=seed, batch_size=batch_size, color_mode='grayscale')
-
-        model = get_unet(self.flag)
-        if self.flag.pretrained_weight_path != None:
-            model.load_weights(self.flag.pretrained_weight_path)
-
         config = tf.ConfigProto()
         # config.gpu_options.per_process_gpu_memory_fraction = 0.9
         config.gpu_options.allow_growth = True
         set_session(tf.Session(config=config))
+
+        model = get_unet(self.flag)
+        if self.flag.pretrained_weight_path != None:
+            model.load_weights(self.flag.pretrained_weight_path)
         
         if not os.path.exists(os.path.join(self.flag.ckpt_dir, self.flag.ckpt_name)):
             os.mkdir(os.path.join(self.flag.ckpt_dir, self.flag.ckpt_name))
         model_json = model.to_json()
         with open(os.path.join(self.flag.ckpt_dir, self.flag.ckpt_name, 'model.json'), 'w') as json_file:
             json_file.write(model_json)
-        # vis = callbacks.trainCheck()
+        vis = callbacks.trainCheck()
         model_checkpoint = ModelCheckpoint(
                     os.path.join(self.flag.ckpt_dir, self.flag.ckpt_name,'weights.{epoch:02d}.h5'), 
                     period=1000)
@@ -84,6 +83,6 @@ class TrainModel:
             self.train_generator(image_generator, mask_generator),
             steps_per_epoch= image_generator.n // batch_size,
             epochs=epochs,
-            callbacks=[model_checkpoint, learning_rate]#, vis]
+            callbacks=[model_checkpoint, learning_rate, vis]
         )
 
