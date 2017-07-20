@@ -18,6 +18,23 @@ click image to watch video
 
 ## Usage  
 
+    usage: main.py [-h] [--data_path DATA_PATH] 
+                        [--output_dir OUTPUT_DIR]
+                        [--image_size IMAGE_SIZE] 
+                        [--batch_size BATCH_SIZE]
+                        [--total_epoch TOTAL_EPOCH]
+                        [--initial_learning_rate INITIAL_LEARNING_RATE]
+                        [--learning_rate_decay_factor LEARNING_RATE_DECAY_FACTOR]
+                        [--epoch_per_decay EPOCH_PER_DECAY] 
+                        [--ckpt_dir CKPT_DIR]
+                        [--ckpt_name CKPT_NAME]
+                        [--pretrained_weight_path PRETRAINED_WEIGHT_PATH]
+                        [--confidence_value CONFIDENCE_VALUE] 
+                        [--debug DEBUG]
+                        [--mode MODE] 
+                        [--test_image_path TEST_IMAGE_PATH]
+                        [--tf_log_level TF_LOG_LEVEL]
+
 Input data(only for training)
 
     └── dataset
