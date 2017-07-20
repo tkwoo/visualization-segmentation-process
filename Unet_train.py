@@ -76,7 +76,7 @@ class TrainModel:
             json_file.write(model_json)
         # vis = callbacks.trainCheck()
         model_checkpoint = ModelCheckpoint(
-                    os.path.join(self.flag.ckpt_dir, self.flag.ckpt_name,'weights.{epoch:02d}.h5'), 
+                    os.path.join(self.flag.ckpt_dir, self.flag.ckpt_name,'weights.{epoch:03d}.h5'), 
                     period=self.flag.total_epoch//10+1)
         learning_rate = LearningRateScheduler(self.lr_step_decay)
         model.fit_generator(
