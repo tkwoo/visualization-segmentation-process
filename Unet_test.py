@@ -45,12 +45,6 @@ def predict_image(flag):
     output_path = os.path.join(flag.output_dir, os.path.basename(flag.test_image_path))
     cv2.imwrite(output_path, imgShow)
     print "SAVE:[%s]"%output_path
-    if flag.debug == 'true':
-        cv2.namedWindow("show", 0)
-        cv2.resizeWindow("show", 800, 800)
-        cv2.imshow("ori", imgInput)
-        cv2.imshow("mask", imgMask)
-        cv2.imshow("show", imgShow)
-        cv2.waitKey()
+        
 
     
