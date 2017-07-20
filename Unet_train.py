@@ -13,7 +13,7 @@ import random
 import math
 
 from Unet_keras import get_unet
-import callbacks
+# import callbacks
 
 class TrainModel:
     def __init__(self, flag):
@@ -74,7 +74,7 @@ class TrainModel:
         model_json = model.to_json()
         with open(os.path.join(self.flag.ckpt_dir, self.flag.ckpt_name, 'model.json'), 'w') as json_file:
             json_file.write(model_json)
-        vis = callbacks.trainCheck()
+        # vis = callbacks.trainCheck()
         model_checkpoint = ModelCheckpoint(
                     os.path.join(self.flag.ckpt_dir, self.flag.ckpt_name,'weights.{epoch:02d}.h5'), 
                     period=1000)
@@ -83,6 +83,6 @@ class TrainModel:
             self.train_generator(image_generator, mask_generator),
             steps_per_epoch= image_generator.n // batch_size,
             epochs=epochs,
-            callbacks=[model_checkpoint, learning_rate, vis]
+            callbacks=[model_checkpoint, learning_rate]#, vis]
         )
 

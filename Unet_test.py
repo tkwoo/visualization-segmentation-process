@@ -26,7 +26,6 @@ def predict_image(flag):
     t_total = (cv2.getTickCount() - t_start) / cv2.getTickFrequency() * 1000 
     print "[*] model loading Time: %.3f ms"%t_total
 
-    # image path ex) './dataset/sagital/odd/ori/AD_154_103.png'
     imgInput = cv2.imread(flag.test_image_path, 0)
     input_data = imgInput.reshape((1,256,256,1))
 
