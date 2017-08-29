@@ -18,6 +18,14 @@ click image to watch video
 
 ## Usage  
 
+To train a model (**visualization**)
+
+    $ python main.py
+
+Then, the training steps(image) will be saved 'result' directory
+
+-----------
+
     usage: main.py [-h] [--data_path DATA_PATH] 
                         [--output_dir OUTPUT_DIR]
                         [--image_size IMAGE_SIZE] 
@@ -64,9 +72,7 @@ First, create checkpoint dir and download trained parameter files
 
 You can download **CHECKPOINT** --> not supported
 
-To train a model (visualization)
 
-    $ python main.py
 
 To test a model
 
