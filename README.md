@@ -63,8 +63,8 @@ First, create checkpoint dir and download trained parameter files
             └── ...
 
 You can download **CHECKPOINT** --> not supported
-  
-To test a model
+
+To train a model (visualization)
 
     $ python main.py
 

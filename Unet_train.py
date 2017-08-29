@@ -6,14 +6,14 @@ import tensorflow as tf
 import keras
 import cv2
 import numpy as np
-import os
+import os, errno
 from glob import glob
 import argparse
 import random
 import math
 
 from Unet_keras import get_unet
-# import callbacks
+import callbacks
 
 class TrainModel:
     def __init__(self, flag):
@@ -70,11 +70,11 @@ class TrainModel:
             model.load_weights(self.flag.pretrained_weight_path)
         
         if not os.path.exists(os.path.join(self.flag.ckpt_dir, self.flag.ckpt_name)):
-            os.mkdir(os.path.join(self.flag.ckpt_dir, self.flag.ckpt_name))
+            mkdir_p(os.path.join(self.flag.ckpt_dir, self.flag.ckpt_name))
         model_json = model.to_json()
         with open(os.path.join(self.flag.ckpt_dir, self.flag.ckpt_name, 'model.json'), 'w') as json_file:
             json_file.write(model_json)
-        # vis = callbacks.trainCheck()
+        vis = callbacks.trainCheck(self.flag)
         model_checkpoint = ModelCheckpoint(
                     os.path.join(self.flag.ckpt_dir, self.flag.ckpt_name,'weights.{epoch:03d}.h5'), 
                     period=self.flag.total_epoch//10+1)
@@ -83,6 +83,13 @@ class TrainModel:
             self.train_generator(image_generator, mask_generator),
             steps_per_epoch= image_generator.n // batch_size,
             epochs=epochs,
-            callbacks=[model_checkpoint, learning_rate]#, vis]
+            callbacks=[model_checkpoint, learning_rate, vis]
         )
 
+def mkdir_p(path):
+    try:
+        os.makedirs(path)
+    except OSError as exc: #Python > 2.5
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else : raise
