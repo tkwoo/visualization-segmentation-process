@@ -28,7 +28,8 @@ Then, the training steps(image) will be saved 'result' directory
 
     usage: main.py [-h] [--data_path DATA_PATH] 
                         [--output_dir OUTPUT_DIR]
-                        [--image_size IMAGE_SIZE] 
+                        [--image_height IMAGE_HEIGHT] 
+                        [--image_width IMAGE_WIDTH]
                         [--batch_size BATCH_SIZE]
                         [--total_epoch TOTAL_EPOCH]
                         [--initial_learning_rate INITIAL_LEARNING_RATE]
