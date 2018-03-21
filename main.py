@@ -5,8 +5,8 @@ import os
 from glob import glob
 import argparse
 import sys
-import Unet_train
-from Unet_test import *
+import train
+from predict import predict_image
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--data_path", help="training data path", default="./dataset/city")
@@ -40,7 +40,7 @@ def main():
     if not os.path.isdir(flag.output_dir):
         os.mkdir(flag.output_dir)
     if flag.mode == 'train':
-        train_op = Unet_train.TrainModel(flag)
+        train_op = train.TrainModel(flag)
         train_op.train_unet()
     elif flag.mode == 'predict_img':
         predict_image(flag)
