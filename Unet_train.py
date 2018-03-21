@@ -1,3 +1,4 @@
+from __future__ import print_function
 from keras.models import Model
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler
 from keras.preprocessing.image import ImageDataGenerator

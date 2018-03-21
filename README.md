@@ -11,10 +11,10 @@ click image to watch video
 
 ## Requirements
 
-- Python 2.7
-- OpenCV 3.2.0
-- [Keras 2.0.5](https://github.com/fchollet/keras)
-- [TensorFlow 1.2.0](https://github.com/tensorflow/tensorflow)
+- Python 2.7 or 3.6
+- OpenCV 3.4.0
+- [Keras 2.1.4](https://github.com/fchollet/keras)
+- [TensorFlow 1.5.0](https://github.com/tensorflow/tensorflow)
 
 ## Usage  
 

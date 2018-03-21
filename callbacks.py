@@ -1,3 +1,4 @@
+from __future__ import print_function
 import keras
 import cv2
 import numpy as np
@@ -30,7 +31,7 @@ class trainCheck(keras.callbacks.Callback):
         return
     def train_visualization_seg(self, model, epoch):
         image_name_list = sorted(glob(os.path.join(self.flag.data_path,'train/IMAGE/*/*.png')))
-        print image_name_list
+        print (image_name_list)
 
         image_name = image_name_list[-1]
         image_size = self.flag.image_size
@@ -42,7 +43,7 @@ class trainCheck(keras.callbacks.Callback):
         t_start = cv2.getTickCount()
         result = model.predict(input_data, 1)
         t_total = (cv2.getTickCount() - t_start) / cv2.getTickFrequency() * 1000
-        print "[*] Predict Time: %.3f ms"%t_total
+        print ("[*] Predict Time: %.3f ms"%t_total)
 
         imgMask = (result[0]*255).astype(np.uint8)
         imgShow = cv2.cvtColor(imgInput, cv2.COLOR_GRAY2BGR)

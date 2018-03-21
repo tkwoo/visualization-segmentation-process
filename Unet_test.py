@@ -1,3 +1,4 @@
+from __future__ import print_function
 from keras.models import Model
 from keras.callbacks import ModelCheckpoint
 from keras.backend.tensorflow_backend import set_session
@@ -22,9 +23,9 @@ def predict_image(flag):
     model = model_from_json(loaded_model_json)
     weight_list = sorted(glob(os.path.join(flag.ckpt_dir, flag.ckpt_name, "weight*")))
     model.load_weights(weight_list[-1])
-    print "[*] model load : %s"%weight_list[-1]
+    print ("[*] model load : %s"%weight_list[-1])
     t_total = (cv2.getTickCount() - t_start) / cv2.getTickFrequency() * 1000 
-    print "[*] model loading Time: %.3f ms"%t_total
+    print ("[*] model loading Time: %.3f ms"%t_total)
 
     imgInput = cv2.imread(flag.test_image_path, 0)
     input_data = imgInput.reshape((1,256,256,1))
@@ -32,7 +33,7 @@ def predict_image(flag):
     t_start = cv2.getTickCount()
     result = model.predict(input_data, 1)
     t_total = (cv2.getTickCount() - t_start) / cv2.getTickFrequency() * 1000
-    print "Predict Time: %.3f ms"%t_total
+    print ("Predict Time: %.3f ms"%t_total)
     
     imgMask = (result[0]*255).astype(np.uint8)
     imgShow = cv2.cvtColor(imgInput, cv2.COLOR_GRAY2BGR)
@@ -43,7 +44,7 @@ def predict_image(flag):
     imgShow = cv2.addWeighted(imgShow, 0.9, imgMaskColor, 0.3, 0.0)
     output_path = os.path.join(flag.output_dir, os.path.basename(flag.test_image_path))
     cv2.imwrite(output_path, imgShow)
-    print "SAVE:[%s]"%output_path
+    print ("SAVE:[%s]"%output_path)
         
 
     
