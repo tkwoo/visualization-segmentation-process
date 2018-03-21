@@ -13,7 +13,8 @@ import argparse
 import random
 import math
 
-from model import get_unet
+from model import get_unet_1class
+from model import get_unet, get_fcn8
 import callbacks
 
 class TrainModel:
@@ -34,7 +35,7 @@ class TrainModel:
 
     def train_unet(self):
 
-        img_size = self.flag.image_size
+        # img_size = self.flag.image_height
         batch_size = self.flag.batch_size
         epochs = self.flag.total_epoch
 
@@ -66,7 +67,7 @@ class TrainModel:
         config.gpu_options.allow_growth = True
         set_session(tf.Session(config=config))
 
-        model = get_unet(self.flag)
+        model = get_unet_1class(self.flag)
         if self.flag.pretrained_weight_path != None:
             model.load_weights(self.flag.pretrained_weight_path)
         

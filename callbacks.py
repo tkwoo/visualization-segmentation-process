@@ -34,11 +34,12 @@ class trainCheck(keras.callbacks.Callback):
         print (image_name_list)
 
         image_name = image_name_list[-1]
-        image_size = self.flag.image_size
+        height = self.flag.image_height
+        width = self.flag.image_width
         
         imgInput = cv2.imread(image_name, self.flag.color_mode)
         output_path = self.flag.output_dir
-        input_data = imgInput.reshape((1,image_size,image_size,self.flag.color_mode*2+1))
+        input_data = imgInput.reshape((1,height,width,self.flag.color_mode*2+1))
 
         t_start = cv2.getTickCount()
         result = model.predict(input_data, 1)
