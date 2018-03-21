@@ -1,6 +1,6 @@
-# Segmentation using Unet open version
+# Visualization segmentation training process 
 
-Semenatic segmentation using Unet  
+Semenatic segmentation using Unet, fcn, pspnet
 
 ## Result
 
