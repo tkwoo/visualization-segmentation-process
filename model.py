@@ -185,7 +185,7 @@ def get_unet(flag):
     conv9 = BatchNormalization()(conv9)
     conv9 = Activation('relu')(conv9)
     
-    conv10 = Conv2D(3, (1, 1), activation='sigmoid')(conv9)
+    conv10 = Conv2D(flag.num_of_classes, (1, 1), activation='sigmoid')(conv9)
 
     model = Model(inputs=[inputs], outputs=[conv10])
 
@@ -323,3 +323,13 @@ def get_fcn8(flag):
     model.compile(optimizer=Adam(lr=lr, decay=1e-6), loss=pixelwise_binary_ce, metrics=[dice_coef])
 
     return model
+
+if __name__ == "__main__":
+    class structure:
+        image_width = 512
+        image_height = 256
+        initial_learning_rate = 0.007
+        num_of_classes = 3
+    flag = structure()
+    model = get_unet(flag)
+    model.summary()

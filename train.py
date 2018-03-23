@@ -21,6 +21,28 @@ class TrainModel:
     def __init__(self, flag):
         self.flag = flag
 
+    def select_labels(self, gt):
+        human = np.where(gt==24,10,0) + np.where(gt==25,10,0)
+        car = np.where(gt==26,20,0) + np.where(gt==27,20,0) + np.where(gt==28,20,0)
+        road = np.where(gt==7,30,0) #+ np.where(gt==8,30,0)
+
+        gt_new = road + car + human
+        return gt_new
+    
+    def make_regressor_label(self, gt):
+        human = np.where(gt==24,255,0) + np.where(gt==25,255,0)
+        car = np.where(gt==26,255,0) + np.where(gt==27,255,0) + np.where(gt==28,20,0)
+        road = np.where(gt==7,255,0) #+ np.where(gt==8,1,0)
+        label = np.concatenate((human, car, road), axis=-1)
+        return label
+
+    def train_generator_multiclass(self, image_generator, mask_generator):
+        while True:
+            image = next(image_generator)
+            mask = next(mask_generator)
+            label = self.make_regressor_label(mask).astype(np.float32)
+            yield (image, label)
+
     def train_generator(self, image_generator, mask_generator):
         while True:
             yield(next(image_generator), next(mask_generator))
@@ -33,7 +55,7 @@ class TrainModel:
         # print lrate
         return lrate
 
-    def train_unet(self):
+    def train(self):
 
         # img_size = self.flag.image_height
         batch_size = self.flag.batch_size
@@ -55,34 +77,51 @@ class TrainModel:
         image_datagen = ImageDataGenerator(**datagen_args)
         mask_datagen = ImageDataGenerator(**datagen_args)
 
+        ### generator
         seed = random.randrange(1, 1000)
         image_generator = image_datagen.flow_from_directory(
                     os.path.join(self.flag.data_path, 'train/IMAGE'),
-                    class_mode=None, seed=seed, batch_size=batch_size, color_mode='grayscale')
+                    class_mode=None, seed=seed, batch_size=batch_size, 
+                    target_size=(self.flag.image_height, self.flag.image_width),
+                    color_mode='rgb')
         mask_generator = mask_datagen.flow_from_directory(
                     os.path.join(self.flag.data_path, 'train/GT'),
-                    class_mode=None, seed=seed, batch_size=batch_size, color_mode='grayscale')
+                    class_mode=None, seed=seed, batch_size=batch_size, 
+                    target_size=(self.flag.image_height, self.flag.image_width),
+                    color_mode='grayscale')
+        
+        ### gpu config
         config = tf.ConfigProto()
         # config.gpu_options.per_process_gpu_memory_fraction = 0.9
         config.gpu_options.allow_growth = True
         set_session(tf.Session(config=config))
 
-        model = get_unet_1class(self.flag)
+        ### define model
+
+        model = get_unet(self.flag)
+        # model = get_unet_1class(self.flag)
+        
         if self.flag.pretrained_weight_path != None:
             model.load_weights(self.flag.pretrained_weight_path)
         
+        ### model save
         if not os.path.exists(os.path.join(self.flag.ckpt_dir, self.flag.ckpt_name)):
             mkdir_p(os.path.join(self.flag.ckpt_dir, self.flag.ckpt_name))
         model_json = model.to_json()
         with open(os.path.join(self.flag.ckpt_dir, self.flag.ckpt_name, 'model.json'), 'w') as json_file:
             json_file.write(model_json)
+        
+        ### define callback function
         vis = callbacks.trainCheck(self.flag)
         model_checkpoint = ModelCheckpoint(
                     os.path.join(self.flag.ckpt_dir, self.flag.ckpt_name,'weights.{epoch:03d}.h5'), 
-                    period=self.flag.total_epoch//10+1)
+                    period=self.flag.total_epoch//10)
         learning_rate = LearningRateScheduler(self.lr_step_decay)
+        
+        ### train model
         model.fit_generator(
-            self.train_generator(image_generator, mask_generator),
+            #self.train_generator(image_generator, mask_generator),
+            self.train_generator_multiclass(image_generator, mask_generator),
             steps_per_epoch= image_generator.n // batch_size,
             epochs=epochs,
             callbacks=[model_checkpoint, learning_rate, vis]

@@ -31,27 +31,31 @@ class trainCheck(keras.callbacks.Callback):
         return
     def train_visualization_seg(self, model, epoch):
         image_name_list = sorted(glob(os.path.join(self.flag.data_path,'train/IMAGE/*/*.png')))
-        print (image_name_list)
+        # print (image_name_list[-1])
 
         image_name = image_name_list[-1]
         height = self.flag.image_height
         width = self.flag.image_width
         
         imgInput = cv2.imread(image_name, self.flag.color_mode)
+        imgInput = cv2.cvtColor(imgInput, cv2.COLOR_BGR2RGB)
+
         output_path = self.flag.output_dir
-        input_data = imgInput.reshape((1,height,width,self.flag.color_mode*2+1))
+        input_data = imgInput.reshape((1, height, width, self.flag.color_mode*2+1))
 
         t_start = cv2.getTickCount()
         result = model.predict(input_data, 1)
         t_total = (cv2.getTickCount() - t_start) / cv2.getTickFrequency() * 1000
-        print ("[*] Predict Time: %.3f ms"%t_total)
+        print ("[*] %s predict time: %.3f ms"%(os.path.basename(image_name_list[-1]),t_total))
 
         imgMask = (result[0]*255).astype(np.uint8)
-        imgShow = cv2.cvtColor(imgInput, cv2.COLOR_GRAY2BGR)
-        imgMaskColor = cv2.applyColorMap(imgMask, cv2.COLORMAP_JET)
-        imgShow = cv2.addWeighted(imgShow, 0.9, imgMaskColor, 0.4, 0.0)
+        imgShow = cv2.cvtColor(imgInput, cv2.COLOR_RGB2BGR).copy()
+        imgMaskColor = imgMask
+        imgShow = cv2.addWeighted(imgShow, 0.5, imgMaskColor, 0.6, 0.0)
         output_path = os.path.join(self.flag.output_dir, '%04d_'%epoch+os.path.basename(image_name))
+        mask_path = os.path.join(self.flag.output_dir, 'mask_%04d_'%epoch+os.path.basename(image_name))
         cv2.imwrite(output_path, imgShow)
+        cv2.imwrite(mask_path, imgMaskColor)
         # print "SAVE:[%s]"%output_path
         # cv2.imwrite(os.path.join(output_path, 'img%04d.png'%epoch), imgShow)
         # cv2.namedWindow("show", 0)

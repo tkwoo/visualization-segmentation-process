@@ -9,12 +9,12 @@ import train
 from predict import predict_image
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--data_path", help="training data path", default="./dataset/city")
+parser.add_argument("--data_path", help="training data path", default="./dataset/multiclass")
 parser.add_argument("--output_dir", help="output directory", default="./result")
-parser.add_argument("--image_width", help="image size", default=256, type=int)
+parser.add_argument("--image_width", help="image size", default=512, type=int)
 parser.add_argument("--image_height", help="image size", default=256, type=int)
-parser.add_argument("--num_of_classes", default=1, type=int)
-parser.add_argument("--color_mode", help="color", default=0, type=int)
+parser.add_argument("--num_of_classes", default=3, type=int)
+parser.add_argument("--color_mode", help="color", default=1, type=int)
 parser.add_argument("--batch_size", help="batch size", default=1, type=int)
 parser.add_argument("--total_epoch", help="number of epochs", default=500, type=int)
 parser.add_argument("--initial_learning_rate", help="init lr", default=0.001, type=float)
@@ -43,7 +43,7 @@ def main():
         os.mkdir(flag.output_dir)
     if flag.mode == 'train':
         train_op = train.TrainModel(flag)
-        train_op.train_unet()
+        train_op.train()
     elif flag.mode == 'predict_img':
         predict_image(flag)
     elif flag.mode == 'predict_imgDir':
