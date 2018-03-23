@@ -31,7 +31,6 @@ class trainCheck(keras.callbacks.Callback):
         return
     def train_visualization_seg(self, model, epoch):
         image_name_list = sorted(glob(os.path.join(self.flag.data_path,'train/IMAGE/*/*.png')))
-        # print (image_name_list[-1])
 
         image_name = image_name_list[-1]
         height = self.flag.image_height
@@ -46,7 +45,7 @@ class trainCheck(keras.callbacks.Callback):
         t_start = cv2.getTickCount()
         result = model.predict(input_data, 1)
         t_total = (cv2.getTickCount() - t_start) / cv2.getTickFrequency() * 1000
-        print ("[*] %s predict time: %.3f ms"%(os.path.basename(image_name_list[-1]),t_total))
+        print ("[*] %s predict time: %.3f ms"%(os.path.basename(image_name),t_total))
 
         imgMask = (result[0]*255).astype(np.uint8)
         imgShow = cv2.cvtColor(imgInput, cv2.COLOR_RGB2BGR).copy()

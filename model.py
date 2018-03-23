@@ -2,7 +2,7 @@ from __future__ import print_function
 from keras.models import Model
 from keras.layers import Input, concatenate, Conv2D, MaxPooling2D, Conv2DTranspose, Activation
 from keras.layers import BatchNormalization
-from keras.optimizers import Adam
+from keras.optimizers import Adam, RMSprop
 from keras import backend as K
 
 def dice_coef(y_true, y_pred):
@@ -190,6 +190,7 @@ def get_unet(flag):
     model = Model(inputs=[inputs], outputs=[conv10])
 
     model.compile(optimizer=Adam(lr=lr, decay=1e-6), loss=pixelwise_binary_ce, metrics=[dice_coef])
+    # model.compile(optimizer=RMSprop(lr), loss=pixelwise_binary_ce, metrics=[dice_coef])
 
     return model
 
