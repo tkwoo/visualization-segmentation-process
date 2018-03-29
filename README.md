@@ -4,7 +4,7 @@ Semenatic segmentation using Unet, fcn, pspnet
 
 ## Result
 
-[![Youtube video](https://img.youtube.com/vi/ma1hZMMJL8o/0.jpg)](https://youtu.be/ma1hZMMJL8o)
+[![Youtube video](./result.gif)](https://youtu.be/TtFAXYQc54o)
 
 click image to watch video
 
