@@ -30,7 +30,7 @@ parser.add_argument("--mode",
                     default='train')
 parser.add_argument("--test_image_path", 
                     help="[mode:predict_img] ex) .../Image.png, [mode:predict_imgDir] ex).../dirname",
-                    default=None)
+                    default='./dataset/multiclass/train/IMAGE/ori/hamburg_000000_046566_leftImg8bit.png')
 parser.add_argument("--tf_log_level", help="0, 1, 2, 3", default='2', type=str)
 
 flag = parser.parse_args()
